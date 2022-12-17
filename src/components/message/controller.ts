@@ -1,5 +1,5 @@
 import { store } from './store';
-import { Empty, FullMessage, TheUser } from '../../types';
+import { Empty, FullMessage, TheChat } from '../../types';
 import { socket } from '../../socket';
 import { Socket } from 'socket.io';
 
@@ -32,12 +32,12 @@ export const addMessage = (chat: string, user: string, message: string, fileUrl:
     });
 };
 
-export const readMessages = (theChat: TheUser | Empty): Promise<string> => {
+export const readMessages = (chat: TheChat | Empty): Promise<string> => {
     return new Promise((response, reject) => {
         if (!store.readAll) {
             reject(new Error('No Data in the Database'));
         }
-        response(store.readAll(theChat));
+        response(store.readAll(chat));
     });
 };
 

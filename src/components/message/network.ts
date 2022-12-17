@@ -12,16 +12,11 @@ const upload = multer({
 // 🕸️
 messages.get('/', async (req: Request, res: Response) => {
     try {
-        const { chat: theChat } = req.query;
-        const { user: theUser } = req.query;
-        const data = theChat || theUser ? { chat: theChat, user: theUser } : {};
-
+        const { chat } = req.query;
+        const data = chat ? { chat: chat } : {};
         const allMessages = await readMessages(data);
-
-        res.header({ 'my-header': 'This a custom header' });
-
         successResponse(req, res, allMessages, 201);
-    } catch (error) {
+    } catch (error:any) {
         console.error(error.message);
     }
 });
@@ -35,7 +30,7 @@ messages.post('/', upload.single('file'), async (req: Request, res: Response) =>
         const fullMessage = await addMessage(chat, user, message, fileUrl);
 
         successResponse(req, res, fullMessage, 201);
-    } catch (error) {
+    } catch (error:any) {
         errorResponse(req, res, error.message, 500);
     }
 });
@@ -48,7 +43,7 @@ messages.patch('/:id', async (req: Request, res: Response) => {
         const newMessage = await patchMessage(id, text);
 
         successResponse(req, res, newMessage, 200);
-    } catch (error) {
+    } catch (error:any) {
         errorResponse(req, res, error.message, 500);
     }
     successResponse(req, res, 'You commit a PUT method, Congratulations! ');
@@ -61,7 +56,7 @@ messages.delete('/:id', async (req: Request, res: Response) => {
         const deletedMessage = await deleteMessage(id);
 
         successResponse(req, res, `${deletedMessage} [DELETED] `, 200);
-    } catch (error) {
+    } catch (error:any) {
         errorResponse(req, res, error.message, 500);
     }
 });

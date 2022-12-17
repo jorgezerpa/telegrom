@@ -12,7 +12,10 @@ export interface Empty {}
 export interface TheUser {
     user: string;
 }
-export interface User {
+export interface TheChat {
+    chat: string;
+}
+export interface User{
     _id?: string | number;
     name: string;
     age?: number;

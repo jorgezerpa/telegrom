@@ -1,4 +1,4 @@
-import { Empty, FullMessage, TheUser } from '../../types';
+import { Empty, FullMessage, TheChat } from '../../types';
 import { Model } from './model';
 
 // 🧺
@@ -9,7 +9,7 @@ const addMessage = (message: FullMessage) => {
     theMessage.save();
 };
 //✅
-const readMessages = async (theChat: Empty | TheUser) => {
+const readMessages = async (theChat: Empty | TheChat) => {
     try {
         const allMessages = await Model.find(theChat).populate('chat').populate('user').exec();
         return allMessages;

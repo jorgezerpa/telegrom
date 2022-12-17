@@ -3,18 +3,14 @@ import { Schema, model } from 'mongoose';
 // 🧨
 const mySchema = new Schema(
     {
-        chat: [
-            {
+        chat: {
                 type: Schema.Types.ObjectId,
                 ref: 'chats',
-            },
-        ],
-        user: [
-            {
+        },
+        user: {
                 type: Schema.Types.ObjectId,
                 ref: 'users',
-            },
-        ],
+        },
         message: String,
         date: Date,
         file: String,
