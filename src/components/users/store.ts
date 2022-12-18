@@ -1,18 +1,14 @@
 import { Empty, User } from '../../types';
 import { Model } from './model'
 
-
-
-const addUser = (user: User) => {
-    const theUser = new Model(user);
-    theUser.save();
-
-    return theUser;
+const addUser = async(user: User) => {
+    const User = new Model(user);
+    await User.save();
+    return User;
 }
 
-const readUsers = (user: User | Empty) => {
-    const listUsers =  Model.find(user);
-    
+const readUsers = async(user: User | Empty) => {
+    const listUsers =  await Model.find(user);
     return listUsers;
 }
 

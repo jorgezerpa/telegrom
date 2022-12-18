@@ -4,12 +4,12 @@ const id = Joi.string()
 const user = Joi.string()
 const users = Joi.array().items(user)
 
-const createChat = Joi.object({
+const createChatSchema = Joi.object({
         users: users.required()
 }) 
 
-const getChats = Joi.object({
-    id:id.required()
+const getChatsSchema = Joi.object({
+    userId:id.required()
 })
 
-export { createChat, getChats }
+export { createChatSchema, getChatsSchema }

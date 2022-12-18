@@ -1,18 +1,15 @@
 import { Empty, FullMessage, User } from '../../types'
 import { store } from './store'
+import boom from '@hapi/boom'
 
-export const postUser = (user: User):Promise<FullMessage> => {
-    if(!user){
-        return Promise.reject(new Error('No user'))
-    }
-
-    return store.addUser(user);
+export const postUser = async(user: User):Promise<FullMessage> => {
+        const newUser = store.addUser(user)
+        if(!newUser) throw boom.badRequest("can't create user.")
+        return store.addUser(user);
 }
 
-export const getUsers = (filter: User | Empty ):Promise<FullMessage[]> => {
-    if(!store.readUsers(filter)){
-        return Promise.reject(new Error('No Users found'))
-    }
-
-    return store.readUsers(filter);
+export const getUsers = async(filter: User | Empty ):Promise<FullMessage[]> => {
+    const listUsers  = store.readUsers(filter)
+    if(!listUsers) throw boom.notFound('users not found')
+    return listUsers
 }

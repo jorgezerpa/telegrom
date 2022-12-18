@@ -1,22 +1,15 @@
-import { rejects } from 'node:assert';
-import { resolve } from 'node:path';
 import { Empty, User, Users } from '../../types';
 import { Model } from './model';
 
-const addChat = (chat: Users) => {
-    const newChat = new Model(chat);
-    newChat.save();
-
+const addChat = async(chat: Users) => {
+    const Chat = new Model(chat);
+    const newChat = await Chat.save();
     return newChat;
 };
 
-const getChat = async (userId: Empty | { users: string }) => {
-    try {
-        const answer = await Model.find(userId).populate('users').exec();
-        return answer;
-    } catch (err) {
-        return err;
-    }
+const getChat = async(userId: Empty | { users: string }) => {
+    const chat = await Model.find(userId).populate('users').exec();
+    return chat;
 };
 
 export const store = {

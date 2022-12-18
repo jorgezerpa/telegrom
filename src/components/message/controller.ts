@@ -1,62 +1,35 @@
 import { store } from './store';
 import { Empty, FullMessage, TheChat } from '../../types';
-import { socket } from '../../socket';
-import { Socket } from 'socket.io';
+import boom from '@hapi/boom'
 
 // 🕹️
-
-export const addMessage = (chat: string, user: string, message: string, fileUrl: string): Promise<FullMessage> => {
-    return new Promise((response, reject) => {
-        if (!user || !message || !chat) {
-            return reject(new Error('No user or message provided'));
-        }
-        const fullMessage: FullMessage = {
-            chat,
-            user,
-            message,
-            date: new Date(),
-            file: fileUrl,
-        };
-        store.add(fullMessage);
-
-        // socket.io.on('connect', (client: Socket) => {
-        //     console.log('user connected');
-        //     client.on('messages', () => {
-        //         socket.io.emit('messages', fullMessage);
-        //     });
-        // });
-
-        socket.io.emit('messages', fullMessage);
-
-        return response(fullMessage);
-    });
+export const addMessage = async(chat: string, user: string, message: string, fileUrl: string): Promise<FullMessage> => {
+    const fullMessage: FullMessage = {
+        chat,
+        user,
+        message,
+        date: new Date(),
+        file: fileUrl,
+    };
+    const newMessage = await store.add(fullMessage) 
+    if(!newMessage) throw boom.badRequest("can't create message.") 
+    return newMessage
 };
 
-export const readMessages = (chat: TheChat | Empty): Promise<string> => {
-    return new Promise((response, reject) => {
-        if (!store.readAll) {
-            reject(new Error('No Data in the Database'));
-        }
-        response(store.readAll(chat));
-    });
+export const readMessages = async(chat: TheChat | Empty): Promise<string> => {
+    const messages = await store.readAll(chat)
+    if(!messages) throw boom.notFound('messages not found')
+    return messages
 };
 
-export const patchMessage = (id: number | string, text: string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        if (!id || !text) {
-            return reject(new Error('No id or message provided'));
-        }
-
-        resolve(store.patchOne(id, text));
-    });
+export const patchMessage = async(id: number | string, text: string): Promise<string> => {
+    const updatedMessage = store.patchOne(id, text)
+    if(!updatedMessage) throw boom.badRequest("can't update message")
+    return updatedMessage
 };
 
-export const deleteMessage = (id: number | string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        if (!id) {
-            return reject(new Error('No ID provided'));
-        }
-
-        resolve(store.deleteOne(id));
-    });
+export const deleteMessage = async(id: number | string): Promise<string> => {
+    const result = store.deleteOne(id)
+    if(!result) throw boom.badRequest("can't delete message")
+    return result 
 };

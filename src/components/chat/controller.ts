@@ -1,19 +1,18 @@
-import { response } from 'express';
-import { resolve } from 'node:path';
-import { Empty, User, Users } from '../../types';
+import { Empty, Users } from '../../types';
 import { store } from './store';
+import boom from '@hapi/boom'
 
-export const postChat = (users: string[]): Promise<Users> => {
-    if (!users || !Array.isArray(users)) {
-        return Promise.reject(new Error('No users provided'));
-    }
-
+export const postChat = async(users: string[]): Promise<Users> => {
     const chat = {
         users,
     };
-    return store.addChat(chat);
+    const newChat = await store.addChat(chat)
+    if(!newChat) throw boom.badRequest("can't create new chat")
+    return newChat;
 };
 
-export const getChat = async (userId: Empty | { users: string }) => {
-    return store.getChat(userId);
+export const getChats = async (userId: Empty | { users: string }) => {
+    const chat = await store.getChat(userId);
+    if(!chat || chat.length<=0 ) throw boom.notFound('chats not found')
+    return chat
 };

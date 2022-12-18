@@ -1,29 +1,23 @@
 import { Empty, FullMessage, TheChat } from '../../types';
 import { Model } from './model';
 
-// 🧺
-
 //✅
-const addMessage = (message: FullMessage) => {
-    const theMessage = new Model(message);
-    theMessage.save();
+const addMessage = async(message: FullMessage) => {
+    const Message = new Model(message);
+    const newMessage = await Message.save()
+    return newMessage
 };
 //✅
-const readMessages = async (theChat: Empty | TheChat) => {
-    try {
+const readMessages = async(theChat: Empty | TheChat) => {
         const allMessages = await Model.find(theChat).populate('chat').populate('user').exec();
         return allMessages;
-    } catch (error) {
-        console.error(error);
-    }
 };
-//✅
-const patchMessage = async (id: number | string, message: string) => {
+
+const patchMessage = async(id: number | string, message: string) => {
     const foundMessage = await Model.findOne({ _id: id });
     foundMessage.message = message;
     const newMessage = await foundMessage.save();
-
-    return newMessage;
+    return newMessage
 };
 //✅
 const deleteMessage = async (id: number | string) => {
