@@ -16,3 +16,17 @@ export const getChats = async (userId: Empty | { users: string }) => {
     if(!chat || chat.length<=0 ) throw boom.notFound('chats not found')
     return chat
 };
+
+export const addUsersToChat = async (chatId: string, usersId: string[]) => {
+    const result = await store.addToChat(chatId, usersId);
+    if(!result || result.length<=0 ) throw boom.notFound('chat not found')
+    const updatedChat = await store.getChat({ _id:chatId });
+    return updatedChat
+};
+
+export const removeUserFromChat = async (chatId: string, userId: string) => {
+    const result = await store.removeFromChat(chatId, userId);
+    if(!result || result.length<=0 ) throw boom.notFound('chat not found')
+    const updatedChat = await store.getChat({ _id:chatId });
+    return updatedChat
+};

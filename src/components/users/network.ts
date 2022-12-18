@@ -17,10 +17,11 @@ users.post('/', validatorHandler(createUserSchema, 'body'), async (req, res, nex
     }
 });
 
+//get users
 users.get('/', async(req, res, next) => {
     try{
-        const { name: user } = req.query;
-        const filter = user ?{ name: user} :{};
+        const { id: _id } = req.query;
+        const filter = _id ? {_id} :{};
         const theUsers = await getUsers(filter);
         successResponse(req, res, theUsers, 200);
     }catch(error:any){
