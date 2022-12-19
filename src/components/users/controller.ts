@@ -25,3 +25,17 @@ export const deleteUser = async(id:string ) => {
     if(!result || result.n<=0) throw boom.notFound('users not found')
     return 'user '+ id + ' deleted'
 }
+
+export const addContact = async(id:string, contactId:string ) => {
+    const contact = store.readUser(contactId)
+    if(!contact) throw boom.notFound('the user that you want to add to contacts, not exist.')
+    const result  = await store.addContact(id, contactId)
+    if(!result || result.n<=0) throw boom.notFound("can't add contact")
+    return 'contact successfully added'
+}
+
+export const removeContact = async(id:string, contactId:string ) => {
+    const result  = await store.removeContact(id, contactId)
+    if(!result || result.n<=0) throw boom.notFound("can't remove contact")
+    return 'contact successfully removed'
+}

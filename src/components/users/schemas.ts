@@ -18,4 +18,8 @@ const getUserSchema = Joi.object({
         id: id.required()
 }) 
 
-export { createUserSchema, getUserSchema, updateUserSchema }
+const addContactSchema = Joi.object({
+        contactId: id.required()
+}) 
+
+export { createUserSchema, getUserSchema, updateUserSchema, addContactSchema }

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
-import { postUser, getUsers, updateUser, deleteUser } from './controller'
+import { postUser, getUsers, updateUser, deleteUser, addContact, removeContact } from './controller'
 import { successResponse } from '../../network/response'
-import { createUserSchema, getUserSchema, updateUserSchema } from './schemas'
+import { createUserSchema, getUserSchema, updateUserSchema, addContactSchema } from './schemas'
 import validatorHandler from '../../middlewares/validator.handler';
 
 const users = express.Router();
@@ -45,6 +45,28 @@ users.delete('/deleteUser/:id', validatorHandler(getUserSchema, 'params'), async
         const { id } = req.params;
         const theUsers = await deleteUser(id);
         successResponse(req, res, theUsers, 200);
+    }catch(error:any){
+        next(error)
+    }
+})
+
+users.patch('/addContact/:contactId', validatorHandler(addContactSchema, 'params'), validatorHandler(updateUserSchema, 'body'), async(req, res, next) => {
+    try{
+        const id = '639f7fa2d5679f9625fdeb4e' //should come with the auth middleware. Harcoded by know to test
+        const { contactId } = req.params;
+        const result = await addContact(id, contactId);
+        successResponse(req, res, result, 200);
+    }catch(error:any){
+        next(error)
+    }
+})
+
+users.patch('/removeContact/:contactId', validatorHandler(addContactSchema, 'params'), validatorHandler(updateUserSchema, 'body'), async(req, res, next) => {
+    try{
+        const id = '639f7fa2d5679f9625fdeb4e' //should come with the auth middleware. Harcoded by know to test
+        const { contactId } = req.params;
+        const result = await removeContact(id, contactId);
+        successResponse(req, res, result, 200);
     }catch(error:any){
         next(error)
     }
