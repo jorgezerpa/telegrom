@@ -12,7 +12,13 @@ export const postChat = async(users: string[]): Promise<Users> => {
 };
 
 export const getChats = async (userId: Empty | { users: string }) => {
-    const chat = await store.getChat(userId);
+    const chats = await store.getChats(userId);
+    if(!chats || chats.length<=0 ) throw boom.notFound('chats not found')
+    return chats
+};
+
+export const getChat = async (chatId: Empty | { _id: string }) => {
+    const chat = await store.getChat(chatId);
     if(!chat || chat.length<=0 ) throw boom.notFound('chats not found')
     return chat
 };
@@ -29,4 +35,12 @@ export const removeUserFromChat = async (chatId: string, userId: string) => {
     if(!result || result.length<=0 ) throw boom.notFound('chat not found')
     const updatedChat = await store.getChat({ _id:chatId });
     return updatedChat
+};
+
+export const updateChat = async (chatId: string, changes:any) => {
+    const chat = await store.getChat({_id:chatId});
+    if(!chat ) throw boom.notFound('chat not found')
+    const changesToPass = { ...chat.toObject(), ...changes }
+    const updatedChat = await store.updateChat(chatId, changesToPass);
+    return changesToPass
 };

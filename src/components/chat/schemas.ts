@@ -12,4 +12,8 @@ const getChatsSchema = Joi.object({
     userId:id.required()
 })
 
-export { createChatSchema, getChatsSchema }
+const getChatSchema = Joi.object({
+    chatId:id.required()
+})
+
+export { createChatSchema, getChatsSchema, getChatSchema }
