@@ -7,10 +7,15 @@ const age = Joi.number()
 const createUserSchema = Joi.object({
         name: name.required(),
         age: age.required(),
+})
+
+const updateUserSchema = Joi.object({
+        name: name,
+        age: age,
 }) 
     
 const getUserSchema = Joi.object({
         id: id.required()
 }) 
 
-export { createUserSchema, getUserSchema }
+export { createUserSchema, getUserSchema, updateUserSchema }
