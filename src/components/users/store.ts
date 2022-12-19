@@ -32,15 +32,15 @@ const deleteUser = async(id:string) => {
 
 const addContact = async(id:string, contactId:string) => {
     const user =  await Model.findOne({ _id:id });
-    if(!user) throw 'user not found'
+    if(!user) throw new Error('user not found')
     const updatedContacts =  await Model.updateOne({_id:id }, { contacts: [...user.contacts, contactId ] });
     return updatedContacts;
 }
 
 const removeContact = async(id:string, contactId:string) => {
     const user =  await Model.findOne({ _id:id });
-    if(!user) throw 'user not found'
-    const newContacts = user.contacts.filter((contact:string)=>{contact!==contactId})
+    if(!user) throw new Error('user not found')
+    const newContacts = user.contacts.filter((contact:string)=>contact!=contactId)
     const updatedContacts =  await Model.updateOne({_id:id }, { contacts: newContacts });
     return updatedContacts;
 }

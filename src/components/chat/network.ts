@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { postChat, getChats, getChat, addUsersToChat, removeUserFromChat, updateChat } from './controller';
 import { successResponse } from '../../network/response';
-import { createChatSchema, getChatsSchema, getChatSchema } from './schemas'
+import { createChatSchema, getChatsSchema, getChatSchema, updateChatSchema } from './schemas'
 import validatorHandler from '../../middlewares/validator.handler';
 
 const chat = express.Router();
@@ -58,7 +58,7 @@ chat.patch('/removeUser/:chatId/:userId', async(req, res, next) => {
     }
 });
 
-chat.patch('/update/:chatId', async(req, res, next) => {
+chat.patch('/update/:chatId',validatorHandler(updateChatSchema, 'body'), async(req, res, next) => {
     try {
         const { chatId } = req.params;
         const changes = req.body
@@ -68,7 +68,5 @@ chat.patch('/update/:chatId', async(req, res, next) => {
         next(error)
     }
 });
-
-
 
 export default chat;

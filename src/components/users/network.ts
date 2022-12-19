@@ -52,7 +52,7 @@ users.delete('/deleteUser/:id', validatorHandler(getUserSchema, 'params'), async
 
 users.patch('/addContact/:contactId', validatorHandler(addContactSchema, 'params'), validatorHandler(updateUserSchema, 'body'), async(req, res, next) => {
     try{
-        const id = '639f7fa2d5679f9625fdeb4e' //should come with the auth middleware. Harcoded by know to test
+        const id = '63a071200242e0889d3c55f2' //should come with the auth middleware. Harcoded by know to test
         const { contactId } = req.params;
         const result = await addContact(id, contactId);
         successResponse(req, res, result, 200);
@@ -63,7 +63,7 @@ users.patch('/addContact/:contactId', validatorHandler(addContactSchema, 'params
 
 users.patch('/removeContact/:contactId', validatorHandler(addContactSchema, 'params'), validatorHandler(updateUserSchema, 'body'), async(req, res, next) => {
     try{
-        const id = '639f7fa2d5679f9625fdeb4e' //should come with the auth middleware. Harcoded by know to test
+        const id = '63a071200242e0889d3c55f2' //should come with the auth middleware. Harcoded by know to test
         const { contactId } = req.params;
         const result = await removeContact(id, contactId);
         successResponse(req, res, result, 200);
