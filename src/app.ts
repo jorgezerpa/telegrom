@@ -11,7 +11,7 @@ dotenv.config();
 const PORT: string | number = process.env.PORT || 3000;
 const app: Application = express();
 //middlewares
-app.use(cors)
+app.use(cors())
 app.use(express.json());
 
 //database conection
