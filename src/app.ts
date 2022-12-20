@@ -10,18 +10,20 @@ dotenv.config();
 const PORT: string | number = process.env.PORT || 3000;
 const app: Application = express();
 
-    // Sokects
-const server = http.createServer(app);
-connect(server);
 
-    //database conection
+//database conection
 if (!process.env.DB_URI)  process.exit(1);
 ConnectDB(process.env.DB_URI);
 
-    //middlewares
+//middlewares
 app.use(express.json());
 
-    //routes
+
+// Sockets
+const server = http.createServer(app);
+connect(server);
+
+//routes
 messageRoute(app);
 
     //error handlers

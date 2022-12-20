@@ -1,6 +1,7 @@
 import { store } from './store';
 import { Empty, FullMessage, TheChat } from '../../types';
 import boom from '@hapi/boom'
+import { socket } from '../../socket';
 
 // 🕹️
 export const addMessage = async(chat: string, user: string, message: string, fileUrl: string): Promise<FullMessage> => {
@@ -13,6 +14,7 @@ export const addMessage = async(chat: string, user: string, message: string, fil
     };
     const newMessage = await store.add(fullMessage) 
     if(!newMessage) throw boom.badRequest("can't create message.") 
+    socket.io.emit('newMessage', newMessage)
     return newMessage
 };
 
@@ -25,11 +27,13 @@ export const readMessages = async(chat: TheChat | Empty): Promise<string> => {
 export const patchMessage = async(id: number | string, text: string): Promise<string> => {
     const updatedMessage = store.patchOne(id, text)
     if(!updatedMessage) throw boom.badRequest("can't update message")
+    socket.io.emit('updatedMessage', {messageId:id})    
     return updatedMessage
 };
 
 export const deleteMessage = async(id: number | string): Promise<string> => {
     const result = store.deleteOne(id)
     if(!result) throw boom.badRequest("can't delete message")
+    socket.io.emit('deletedMessage', {messageId:id})    
     return result 
 };
