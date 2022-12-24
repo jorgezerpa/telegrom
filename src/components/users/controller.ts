@@ -8,7 +8,7 @@ export const postUser = async(user: User):Promise<FullMessage> => {
         return newUser;
 }
 
-export const getUsers = async(filter: User | Empty ):Promise<FullMessage[]> => {
+export const getUser = async(filter: User | Empty ):Promise<FullMessage[]> => {
     const listUsers  = store.readUsers(filter)
     if(!listUsers) throw boom.notFound('users not found')
     return listUsers
@@ -34,8 +34,8 @@ export const addContact = async(id:string, contactId:string ) => {
     return 'contact successfully added'
 }
 
-export const removeContact = async(id:string, contactId:string ) => {
-    const result  = await store.removeContact(id, contactId)
+export const removeContact = async(authId:string, contactId:string ) => {
+    const result  = await store.removeContact(authId, contactId)
     if(!result || result.n<=0) throw boom.notFound("can't remove contact")
     return 'contact successfully removed'
 }
