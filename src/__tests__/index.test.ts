@@ -20,6 +20,7 @@ afterAll((done) => {
         }) 
 })
 
+        //USERS
 describe('USERS ENDPOINTS', ()=>{
     it('createUser', (done)=>{
         request(app)

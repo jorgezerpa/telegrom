@@ -1,8 +1,11 @@
 import { Schema, model } from 'mongoose'
 
 const mySchema = new Schema({
-    name: String,
-    age: Number,
+    authId: String,
+    firstName: String,
+    lastName: String,
+    email:String,
+    
     contacts: [
         {
             type: Schema.Types.ObjectId,

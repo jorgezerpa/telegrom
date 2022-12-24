@@ -12,6 +12,6 @@ export function boomErrorHandler(err: any,req:Request,res: Response,next: NextFu
 }
 
 export function errorHandler(err:any, req:Request, res:Response, next:NextFunction){
-    // console.log(err)
+    console.log(err)
     errorResponse(req, res, err.message, err.status)
 }
