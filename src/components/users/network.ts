@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express'
-import { postUser, getUsers, updateUser, deleteUser, addContact, removeContact } from './controller'
+import { postUser, getUser, updateUser, deleteUser, addContact, removeContact } from './controller'
 import { successResponse } from '../../network/response'
 import { createUserSchema, getUserSchema, updateUserSchema, addContactSchema } from './schemas'
 import validatorHandler from '../../middlewares/validator.handler';
@@ -23,9 +23,9 @@ export const createUserClosure = () => {
 //get users
 users.get('/', async(req, res, next) => {
     try{
-        const { id: _id } = req.query;
-        const filter = _id ? {_id} :{};
-        const theUsers = await getUsers(filter);
+        const authId = req.auth.payload.sub.split('|')[1]
+        const filter = {authId}
+        const theUsers = await getUser(filter);
         successResponse(req, res, theUsers, 200);
     }catch(error:any){
         next(error)

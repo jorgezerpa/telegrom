@@ -7,14 +7,9 @@ const addUser = async(user: User) => {
     return User;
 }
 
-const readUsers = async(user: User | Empty) => {
-    const listUsers =  await Model.find(user).populate('contacts');
+const readUser = async(user: User | Empty) => {
+    const listUsers =  await Model.findOne(user).populate('contacts');
     return listUsers;
-}
-
-const readUser = async(id: string) => {
-    const User =  await Model.findOne({ _id: id });
-    return User;
 }
 
 const updateUser = async(id:string, changes:any) => {
@@ -47,7 +42,6 @@ const removeContact = async(id:string, contactId:string) => {
 
 export const store = {
     addUser,
-    readUsers,
     readUser,
     updateUser,
     deleteUser,

@@ -8,8 +8,8 @@ export const postUser = async(user: User):Promise<FullMessage> => {
         return newUser;
 }
 
-export const getUsers = async(filter: User | Empty ):Promise<FullMessage[]> => {
-    const listUsers  = store.readUsers(filter)
+export const getUser = async(filter: User | Empty ):Promise<FullMessage[]> => {
+    const listUsers  = store.readUser(filter)
     if(!listUsers) throw boom.notFound('users not found')
     return listUsers
 }
