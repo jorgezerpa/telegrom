@@ -2,10 +2,10 @@ import { Empty, Users } from '../../types';
 import { store } from './store';
 import boom from '@hapi/boom'
 
-export const postChat = async(users: string[]): Promise<Users> => {
-    const chat = {
-        users,
-    };
+type Chat = { users: any[], name:string }
+
+export const postChat = async(data:Chat): Promise<Chat> => {
+    const chat = data
     const newChat = await store.addChat(chat)
     if(!newChat) throw boom.badRequest("can't create new chat")
     return newChat;

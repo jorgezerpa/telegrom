@@ -6,10 +6,11 @@ import validatorHandler from '../../middlewares/validator.handler';
 
 const chat = express.Router();
 
-chat.post('/', validatorHandler(createChatSchema, 'body'), (req, res, next) => {
+chat.post('/', validatorHandler(createChatSchema, 'body'), async(req, res, next) => {
     try {
-        const { users } = req.body;
-        successResponse(req, res, postChat(users), 201);
+        const data = req.body
+        const result = await postChat(data)  
+        successResponse(req, res, result, 201);
     } catch (error:any) {
         next(error)
     }

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import multer from 'multer';
 import { addMessage, readMessages, patchMessage, deleteMessage } from './controller';
-import { successResponse, errorResponse } from '../../network/response';
+import { successResponse } from '../../network/response';
 import { addMessageSchema, deleteMessageSchema, updateMessageSchema, getMessageSchema, getMessagesSchema } from './schemas'
 import validatorHandler from '../../middlewares/validator.handler';
 
